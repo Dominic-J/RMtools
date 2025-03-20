@@ -88,7 +88,7 @@ result_df, success_df, failed_rules= apply_rules(base_df, rule_df)
 * rule_df：需要自动打标的规则信息（用generate_rule_descriptions()生成）
 
 
-## （二）策略调整-通用
+## （二）rule_impact
 
 ### rule_impact(df, rule_desc, target_column='y', positive_label=1)
 
