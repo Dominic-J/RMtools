@@ -1,6 +1,6 @@
 # 自用风控策略小工具集合   
 
-## xml_gene   
+## （一）xml_gene   
 @Author：Shi Dejing   
 
 ### 变量库解析（XML2DataFrame）
@@ -87,3 +87,41 @@ result_df, success_df, failed_rules= apply_rules(base_df, rule_df)
 * base_df：数据底表
 * rule_df：需要自动打标的规则信息（用generate_rule_descriptions()生成）
 
+
+## （二）策略调整-通用
+
+### rule_impact(df, rule_desc, target_column='y', positive_label=1)
+
+分析规则在数据集中的命中情况，并计算bad_rate和lift等指标。  
+
+参数:   
+  df : pd.DataFrame   
+        包含待分析数据的DataFrame，至少需要包含rule_desc所涉及的字段和target_column。  
+    rule_desc : str   
+        规则的逻辑表达式，使用df.query(rule_desc)进行命中样本的筛选。   
+    target_column : str, optional   
+        目标列，表示贷后结果（如违约标志），默认为'y'。   
+    positive_label : int or str, optional   
+        目标列中表示“bad”样本的值（如违约的标签），默认为1。   
+返回:   
+    result : pd.DataFrame    
+        返回一个包含命中、不命中和总体的分析结果，包括数量、占比、bad_rate和lift。   
+
+### rule_impact_all(df, rule_desc, target_columns, agr_columns=None, positive_label=1)
+
+分析多个目标列在数据集中的命中情况，并计算bad_rate、lift和到期样本量等指标。   
+    
+参数:    
+    df : pd.DataFrame    
+        包含待分析数据的DataFrame，至少需要包含rule_desc所涉及的字段和目标列、到期列。    
+    rule_desc : str   
+        规则的逻辑表达式，使用df.query(rule_desc)进行命中样本的筛选。  
+    target_columns : list of str, optional    
+        目标列列表，表示多个贷后结果列（如不同的违约标志）。   
+    agr_columns : list of str, optional   
+        每个target_column对应的到期标志列。   
+    positive_label : int or str, optional     
+        目标列中表示“bad”样本的值（如违约的标签），默认为1。    
+返回:
+    result : pd.DataFrame     
+        包含每个目标列的命中、不命中和总体的分析结果，包括数量、占比、bad_rate、lift和到期样本量。    
